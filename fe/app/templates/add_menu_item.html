@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card form-card">
+  <h1>Agregar platillo</h1>
+  <form method="post" class="form-grid two-col">
+    <label>
+      Nombre
+      <input type="text" name="name" required>
+    </label>
+    <label>
+      Categoría
+      <input type="text" name="category" required placeholder="main, drink o dessert">
+    </label>
+    <label>
+      Precio
+      <input type="number" step="0.01" name="price" required>
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="is_available" checked>
+      Disponible ahora
+    </label>
+    <label class="full-width">
+      Descripción
+      <textarea name="description" rows="4"></textarea>
+    </label>
+    <button type="submit" class="full-width">Guardar platillo</button>
+  </form>
+</section>
+{% endblock %}

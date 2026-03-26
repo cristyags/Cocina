@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Todas las órdenes</h1>
+    <p>Vista general de cocina y atención para todos los meseros.</p>
+  </div>
+</div>
+
+<section class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Mesa</th>
+        <th>ID mesero</th>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Creada</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.table_number }}</td>
+        <td>{{ order.waiter_id }}</td>
+        <td><span class="badge badge-{{ order.status }}">{{ estado_es(order.status) }}</span></td>
+        <td>${{ order.total_amount }}</td>
+        <td>{{ order.created_at }}</td>
+        <td>
+          <div class="actions">
+            <form method="post" action="{{ url_for('update_order_status', order_id=order.id) }}">
+              <input type="hidden" name="status" value="preparing">
+              <button type="submit">Marcar en preparación</button>
+            </form>
+            <form method="post" action="{{ url_for('update_order_status', order_id=order.id) }}">
+              <input type="hidden" name="status" value="ready">
+              <button type="submit">Marcar lista</button>
+            </form>
+            <form method="post" action="{{ url_for('update_order_status', order_id=order.id) }}">
+              <input type="hidden" name="status" value="delivered">
+              <button type="submit">Marcar entregada</button>
+            </form>
+            <form method="post" action="{{ url_for('update_order_status', order_id=order.id) }}">
+              <input type="hidden" name="status" value="cancelled">
+              <button type="submit" class="button-danger">Cancelar</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6" class="empty-state">No se encontraron órdenes.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

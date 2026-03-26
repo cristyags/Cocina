@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card form-card">
+  <h1>Nueva orden</h1>
+  <form method="post" class="form-grid">
+    <label>
+      Número de mesa
+      <input type="number" name="table_number" required min="1">
+    </label>
+    <label>
+      Notas
+      <textarea name="notes" rows="3" placeholder="Ejemplo: sin cebolla, extra salsa"></textarea>
+    </label>
+
+    <div class="item-list">
+      <h2>Platillos disponibles</h2>
+      {% for item in items %}
+      <div class="item-row">
+        <div>
+          <strong>{{ item.name }}</strong>
+          <div class="muted">{{ categoria_es(item.category) }} · ${{ item.price }}</div>
+        </div>
+        <div class="item-controls">
+          <input type="number" name="qty_{{ item.id }}" min="0" value="0">
+          <input type="text" name="note_{{ item.id }}" placeholder="Nota del platillo (opcional)">
+        </div>
+      </div>
+      {% else %}
+      <p class="empty-state">No hay platillos disponibles.</p>
+      {% endfor %}
+    </div>
+
+    <button type="submit">Enviar orden</button>
+  </form>
+</section>
+{% endblock %}

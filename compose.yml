@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: tableflow
+      MYSQL_USER: tableuser
+      MYSQL_PASSWORD: tablepass
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-utableuser", "-ptablepass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  kitchen:
+    build:
+      context: .
+      dockerfile: kitchen/Dockerfile
+    ports:
+      - "50051:50051"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  be:
+    build:
+      context: .
+      dockerfile: be/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: mysql+pymysql://tableuser:tablepass@db:3306/tableflow
+      SECRET_KEY: supersecretkey_change_in_production
+      TOKEN_EXPIRE_MINUTES: 60
+      KITCHEN_GRPC_HOST: kitchen
+      KITCHEN_GRPC_PORT: 50051
+    depends_on:
+      db:
+        condition: service_healthy
+      kitchen:
+        condition: service_started
+
+  fe:
+    build: ./fe
+    ports:
+      - "5001:5000"
+    environment:
+      API_BASE_URL: http://be:8000
+    depends_on:
+      - be
+
+volumes:
+  db_data:

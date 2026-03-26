@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>Gestión de menú</h1>
+    <p>Consulta todos los platillos, incluso los que están fuera de servicio.</p>
+  </div>
+  <a class="button-link" href="{{ url_for('add_menu_item') }}">Agregar platillo</a>
+</div>
+
+<section class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Disponibilidad</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ categoria_es(item.category) }}</td>
+        <td>${{ item.price }}</td>
+        <td>
+          <span class="badge {{ 'badge-available' if item.is_available else 'badge-unavailable' }}">
+            {{ 'Disponible' if item.is_available else 'No disponible' }}
+          </span>
+        </td>
+        <td>
+          <form method="post" action="{{ url_for('toggle_menu_item', item_id=item.id) }}">
+            <button type="submit">Cambiar estado</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5" class="empty-state">No se encontraron platillos.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,79 @@
+CHECKLIST DE CUMPLIMIENTO - TABLEFLOW
+
+1. RESUMEN DEL PROYECTO
+Este proyecto es una aplicación web de gestión para restaurante.
+Incluye:
+- frontend en Flask
+- backend en FastAPI
+- microservicio gRPC para cocina
+- base de datos MySQL
+- ejecución con Docker Compose
+
+Objetivo funcional:
+- registrar e iniciar sesión de usuarios
+- gestionar menú
+- crear órdenes
+- actualizar estados de órdenes
+- enviar notificaciones en tiempo real por WebSocket
+
+2. LO QUE PEDÍA EL TXT Y ESTADO DE CUMPLIMIENTO
+[HECHO] Stack en Python 3.11 con Flask, FastAPI, gRPC y MySQL
+[HECHO] Arquitectura por capas: routers, services, repositories, models, schemas
+[HECHO] Servicio de cocina gRPC separado del backend
+[HECHO] Generación automática de stubs gRPC durante el build
+[HECHO] Compose con servicios db, kitchen, be y fe
+[HECHO] Schema SQL ejecutado automáticamente al iniciar MySQL por primera vez
+[HECHO] Endpoints de autenticación
+[HECHO] Endpoints de menú
+[HECHO] Endpoints de órdenes
+[HECHO] WebSocket para notificaciones
+[HECHO] Frontend con templates y CSS
+[HECHO] Hash de contraseñas y JWT con expiración
+[HECHO] Datos demo para facilitar la explicación
+
+3. CAMBIOS Y CORRECCIONES HECHAS SOBRE EL ZIP
+[CORREGIDO] be/Dockerfile para arrancar correctamente con uvicorn y app.main:app
+[CORREGIDO] kitchen/Dockerfile para ejecutar python -m app.server
+[CORREGIDO] kitchen/app/server.py
+[CORREGIDO] kitchen/app/servicer.py
+[CORREGIDO] Inconsistencias entre estados de órdenes
+[CORREGIDO] Compatibilidad de passlib con bcrypt
+[CORREGIDO] Puertos externos para evitar conflictos locales
+[CORREGIDO] README con puertos reales
+[CORREGIDO] Interfaz completa del frontend al español
+
+4. COSAS HECHAS DE MÁS
+[EXTRA] Usuarios demo creados
+[EXTRA] Menú demo precargado
+[EXTRA] Órdenes demo precargadas
+[EXTRA] Notificaciones demo precargadas
+[EXTRA] Traducción completa visible del frontend a español
+
+5. QUÉ NO CAMBIÓ DEL ENUNCIADO
+- Se mantuvo el stack en Python.
+- Se mantuvo Docker Compose.
+- Se mantuvo MySQL como base de datos.
+- Se mantuvo la lógica de gRPC para validación de cambios de estado.
+
+6. CÓMO PROBABLEMENTE VAN A EVALUAR
+Lo más probable es que evalúen por funcionamiento y por estructura.
+Puntos esperables de revisión:
+- que docker compose up --build levante todo
+- que el frontend cargue
+- que el backend responda en /docs y /health
+- que se pueda iniciar sesión
+- que se pueda ver el menú
+- que se puedan crear órdenes
+- que se puedan cambiar estados válidos
+- que las capas estén separadas como lo pide el TXT
+- que el backend sea quien hable con kitchen por gRPC
+- que el repository sea el único que toque base de datos
+
+7. CREDENCIALES DEMO
+Administrador:
+- usuario: admin
+- contraseña: Admin123
+
+Mesero:
+- usuario: mesero1
+- contraseña: Mesero123

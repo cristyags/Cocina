@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card auth-card">
+  <h1>Registro</h1>
+  <form method="post" class="form-grid">
+    <label>
+      Nombre completo
+      <input type="text" name="full_name">
+    </label>
+    <label>
+      Usuario
+      <input type="text" name="username" required>
+    </label>
+    <label>
+      Correo electrónico
+      <input type="email" name="email" required>
+    </label>
+    <label>
+      Contraseña
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit">Crear cuenta</button>
+  </form>
+  <p class="helper-text">¿Ya estás registrado? <a href="{{ url_for('login') }}">Ir al inicio de sesión</a>.</p>
+</section>
+{% endblock %}
